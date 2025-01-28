@@ -11,12 +11,12 @@ app = Flask(__name__)
 tables = [
     {"id": 1, "status": "kosong"},
     {"id": 2, "status": "kosong"},
-    {"id": 3, "status": "terisi"},
-    {"id": 4, "status": "terisi"},
-    {"id": 5, "status": "terisi"},
+    {"id": 3, "status": "kosong"},
+    {"id": 4, "status": "kosong"},
+    {"id": 5, "status": "kosong"},
     {"id": 6, "status": "kosong"},
     {"id": 7, "status": "kosong"},
-    {"id": 8, "status": "terisi"},
+    {"id": 8, "status": "kosong"},
 ]
 
 @app.route('/')
@@ -25,7 +25,7 @@ def index():
     table_data = []
     for table in tables:
         qr = qrcode.QRCode()
-        qr_data = f"http://192.168.187.19:5000/update_status/{table['id']}"
+        qr_data = f"http://192.168.0.9:5000/update_status/{table['id']}"
         qr.add_data(qr_data)
         qr.make(fit=True)
         img = BytesIO()
@@ -47,9 +47,9 @@ def update_status(table_id):
     for table in tables:
         if table['id'] == table_id:
             table['status'] = 'terisi' if table['status'] == 'kosong' else 'kosong'
-            return jsonify({"success": True, "message": "Status meja diperbarui", "table": table})
-    return jsonify({"success": False, "message": "Meja tidak ditemukan"})
+            return jsonify({"success": True, "message": "Status Kamar diperbarui", "table": table})
+    return jsonify({"success": False, "message": "Kamar tidak ditemukan"})
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.187.19', port=5000, debug=True)
+    app.run(host='192.168.0.9', port=5000, debug=True)
